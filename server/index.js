@@ -6,10 +6,10 @@ const massive = require('massive');
 const session = require('express-session');
 const app = express();
 
+app.use(express.json());
 
 const { SERVER_PORT,CONNECTION_STRING,SESSION_SECRET } = process.env;
 
-app.use(express.json());
 
 app.use(session({
   secret:SESSION_SECRET,
