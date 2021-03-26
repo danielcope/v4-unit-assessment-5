@@ -57,12 +57,12 @@ module.exports = {
     },
 
     getUser: (req,res) => {
-      const {username} = req.session;
-
+      const {username} = req.session.user;
+      
       if(username) {
         return res.status(200).send(req.session.user)
       } else {
         return res.status(404).send('No user logged in.')
       };
     }
-}
+  }
