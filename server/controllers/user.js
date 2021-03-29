@@ -4,7 +4,7 @@ module.exports = {
     register: async (req, res) => {
       const { username, password } = req.body;
       const db = req.app.get('db');
-      const result = await db.find_user_by_username([username]);
+      const result = await db.user.find_user_by_username([username]);
       const existingUser = result[0];
 
       if (existingUser) {
@@ -15,7 +15,7 @@ module.exports = {
       
       const profile_pic = `https://robohash.org/${username}.png`
 
-      const registeredUser = await db.create_user([ username, hash, profile_pic ]);
+      const registeredUser = await db.user.create_user([ username, hash, profile_pic ]);
       const user = registeredUser[0];
       req.session.user = { username: user.username, id: user.id, profile_pic: user.profile_pic };
       return res.status(201).send(req.session.user);
@@ -23,7 +23,7 @@ module.exports = {
   
     login: async (req, res) => {
       const { username, password } = req.body;
-      const foundUser = await req.app.get('db').find_user_by_username([username]);
+      const foundUser = await req.app.get('db').user.find_user_by_username([username]);
       const user = foundUser[0];
       if (!user) {
         return res.status(401).send('User not found. Please register as a new user before logging in.');
